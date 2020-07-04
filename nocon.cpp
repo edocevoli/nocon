@@ -69,9 +69,10 @@ int Start(const std::wstring& cmdLine)
   STARTUPINFOW siStartInfo = { 0 };
   siStartInfo.cb = sizeof(siStartInfo);
   DWORD creationFlags = 0;
-  //creationFlags |= CREATE_NO_WINDOW;
+  creationFlags |= CREATE_NO_WINDOW;
   PROCESS_INFORMATION processInformation;
-  if (CreateProcessW(filename.c_str(), const_cast<wchar_t*>(arguments.c_str()), nullptr, nullptr, TRUE, creationFlags, nullptr, nullptr, &siStartInfo, &processInformation))
+  wstring commandLine = L"\"" + filename + L"\" " + arguments;
+  if (CreateProcessW(filename.c_str(), const_cast<wchar_t*>(commandLine.c_str()), nullptr, nullptr, TRUE, creationFlags, nullptr, nullptr, &siStartInfo, &processInformation))
   {
     CloseHandle(processInformation.hProcess);
     CloseHandle(processInformation.hThread);
